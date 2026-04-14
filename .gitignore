@@ -1,0 +1,42 @@
+# --- NODE.JS ---
+# Dependencias (se instalan dentro del contenedor, no se suben)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# --- DOCKER & BASE DE DATOS ---
+# Carpeta de datos de MySQL (ESTO ES LO MÁS IMPORTANTE)
+# Evita el error de "mysql.sock" y que se suban tus datos reales
+mysql_data/
+
+# Archivos de entorno con contraseñas y claves secretas
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- SISTEMA OPERATIVO ---
+# Archivos basura de Windows y Mac
+Thumbs.db
+db.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- EDITORES DE CÓDIGO ---
+# Configuraciones personales de VS Code o IntelliJ
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# --- COMPILACIÓN (Si usas TypeScript o algún bundler) ---
+dist/
+build/
+out/

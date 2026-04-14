@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # --- LA BASE DE DATOS (Compartida para ambos) ---
+  db:
+    image: mysql:8.0
+    container_name: p1-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: proyect1_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  # --- EL MUNDO PHP ---
+  php-app:
+    image: php:8.2-fpm
+    container_name: p1-php
+    volumes:
+      - ./src_php:/var/www/html # Carpeta separada para PHP
+    command: >
+      sh -c "docker-php-ext-install pdo pdo_mysql && php-fpm"
+
+  nginx:
+    image: nginx:alpine
+    container_name: p1-nginx
+    ports:
+      - "8080:80" # Entrás por http://localhost:8080
+    volumes:
+      - ./src_php:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php-app
+
+  # --- EL MUNDO NODE.JS ---
+  node-app:
+    image: node:20
+    container_name: p1-node
+    working_dir: /home/node/app
+    volumes:
+      - ./src_node:/home/node/app # Carpeta separada para Node
+    ports:
+      - "3000:3000" # Entrás por http://localhost:3000
+    command: sh -c "npm install && npm start"
+    depends_on:
+      - db
+
+  # --- LA HERRAMIENTA VISUAL ---
+  adminer:
+    image: adminer
+    container_name: p1-adminer
+    ports:
+      - "8081:8080" # Entrás por http://localhost:8081
+    depends_on:
+      - db
+
+
