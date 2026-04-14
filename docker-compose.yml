@@ -4,11 +4,11 @@ services:
   # --- LA BASE DE DATOS (Compartida para ambos) ---
   db:
     image: mysql:8.0
-    container_name: p1-mysql
+    container_name: mysql_sistema1
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: proyect1_db
+      MYSQL_DATABASE: proyect1_dbnode
     ports:
       - "3307:3306"
     volumes:
